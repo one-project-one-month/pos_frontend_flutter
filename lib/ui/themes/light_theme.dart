@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 // Define the theme using ThemeData
 final ThemeData myTheme = ThemeData(
-  // Define primary color
-  primaryColor: const Color(0xFF7332DF), // --bs-info
-
-  // Define text theme
   // Define text theme
   textTheme: const TextTheme(
     // Define headline6 style

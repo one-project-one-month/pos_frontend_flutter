@@ -15,7 +15,6 @@ class MiniPOS extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       scaffoldMessengerKey: AppConstants.I.rootNavigatorKey,
-      initialRoute: homeRoute,
       theme: myTheme,
       home: const HomeScren(),
     );
