@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_pos/home/view/home_screen.dart';
 
 import '_application/application.dart';
+import 'ui/ui.dart';
 
 void main() {
   runApp(const MiniPOS());
@@ -15,6 +16,7 @@ class MiniPOS extends StatelessWidget {
     return MaterialApp(
       scaffoldMessengerKey: AppConstants.I.rootNavigatorKey,
       initialRoute: homeRoute,
+      theme: myTheme,
       home: const HomeScren(),
     );
   }
