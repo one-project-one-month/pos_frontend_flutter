@@ -2,53 +2,54 @@ import 'package:flutter/material.dart';
 
 // Define the theme using ThemeData
 final ThemeData myTheme = ThemeData(
+  useMaterial3: true,
   // Define text theme
   textTheme: const TextTheme(
     // Define headline6 style
     titleLarge: TextStyle(
       fontSize: 16.0, // --bs-root-font-size
       fontWeight: FontWeight.w500, // --bs-body-font-weight
-      color: Color(0xFF544F5A), // --bs-gray-rgb
+      color: Colors.white, // --bs-gray-rgb
     ),
     // Define headline5 style
     headlineSmall: TextStyle(
       fontSize: 24.0, // Custom size
       fontWeight: FontWeight.bold, // Custom weight
-      color: Color(0xFF544F5A), // --bs-gray-rgb
+      color: Colors.white, // --bs-gray-rgb
     ),
     // Define headline4 style
     headlineMedium: TextStyle(
       fontSize: 20.0, // Custom size
       fontWeight: FontWeight.bold, // Custom weight
-      color: Color(0xFF544F5A), // --bs-gray-rgb
+      color: Colors.white, // --bs-gray-rgb
     ),
     // Define headline3 style
     displaySmall: TextStyle(
       fontSize: 18.0, // Custom size
       fontWeight: FontWeight.bold, // Custom weight
-      color: Color(0xFF544F5A), // --bs-gray-rgb
+      color: Colors.white, // --bs-gray-rgb
     ),
     // Define headline2 style
     displayMedium: TextStyle(
       fontSize: 32.0, // Custom size
       fontWeight: FontWeight.bold, // Custom weight
-      color: Color(0xFF544F5A), // --bs-gray-rgb
+      color: Colors.white, // --bs-gray-rgb
     ),
     // Define headline1 style
     displayLarge: TextStyle(
       fontSize: 48.0, // Custom size
       fontWeight: FontWeight.bold, // Custom weight
-      color: Color(0xFF544F5A), // --bs-gray-rgb
+      color: Colors.white, // --bs-gray-rgb
     ),
     // Define bodyText1 style
     bodyLarge: TextStyle(
       fontSize: 16.0, // Custom size
-      color: Color(0xFF89868D), // --bs-body-color-rgb
+      color: Colors.white, // --bs-body-color-rgb
     ),
     // Define bodyText2 style
     bodyMedium: TextStyle(
       fontSize: 14.0, // Custom size
-      color: Color(0xFF89868D), // --bs-body-color-rgb
+      color: Colors.white, // --bs-body-color-rgb
     ),
   ),
 
@@ -97,7 +98,6 @@ final ThemeData myTheme = ThemeData(
   // button theme
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      minimumSize: const Size(130, 45),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),
       ),

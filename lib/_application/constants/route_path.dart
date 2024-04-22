@@ -1,1 +1,1 @@
-
+const transcationScreen = "/transcationScreen";

@@ -44,7 +44,7 @@ class ApiService {
   ///
   /// Throws an error if [sendData] is empty.
   Future<Object> callApi({
-    required Map<String, dynamic> sendData,
+    Map<String, dynamic>? sendData,
     String? baseUrl,
     String? path,
     bool isAlreadyHaveToken = true,
@@ -52,7 +52,7 @@ class ApiService {
     String? token,
     String apiMethod = "GET",
   }) async {
-    if (apiMethod != ApiConstants.I.get && sendData.isEmpty) {
+    if (apiMethod != ApiConstants.I.get && sendData == null) {
       throw ArgumentError("Send data cannot be empty");
     }
 

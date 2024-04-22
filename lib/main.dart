@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mini_pos/home/view/home_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import '_application/application.dart';
+import '_application/main/main.dart';
+import 'bottom_navbar/bottom_navbar.dart';
 import 'ui/ui.dart';
 
 void main() {
@@ -13,10 +16,19 @@ class MiniPOS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: AppConstants.I.rootNavigatorKey,
-      theme: myTheme,
-      home: const HomeScren(),
+    Future.delayed(Duration.zero, () async {
+      await Permission.manageExternalStorage.request();
+      await Permission.storage.request();
+    });
+
+    return MultiProvider(
+      providers: mainProviders,
+      child: MaterialApp(
+        scaffoldMessengerKey: AppConstants.I.rootNavigatorKey,
+        theme: myTheme,
+        onGenerateRoute: appRoutes,
+        home: const BottomNavbarBootstrap(),
+      ),
     );
   }
 }
