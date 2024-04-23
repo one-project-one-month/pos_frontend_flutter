@@ -6,7 +6,7 @@ class ProductModel {
   final double price;
   final String productCategoryCode;
   final String image;
-  int? quantity;
+  int quantity;
 
   ProductModel({
     required this.productId,
@@ -15,6 +15,6 @@ class ProductModel {
     required this.price,
     required this.productCategoryCode,
     required this.image,
-    this.quantity,
+    this.quantity = 0,
   });
 }

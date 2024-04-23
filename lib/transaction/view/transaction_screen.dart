@@ -130,9 +130,12 @@ class _TransactionScreenState extends State<TransactionScreen> {
       ),
       bottomNavigationBar: onGenrateQr || qrImagePath != null
           ? null
-          : ElevatedButton(
-              onPressed: captureScreenShot,
-              child: const Text("Save and Print QR"),
+          : Padding(
+              padding: const EdgeInsets.all(20),
+              child: ElevatedButton(
+                onPressed: captureScreenShot,
+                child: const Text("Save and Print QR"),
+              ),
             ),
       body: onGenrateQr
           ? Column(
@@ -150,7 +153,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Saved Image Successfully",
+                      "Saved Transaction Successfully",
                       style: context.textTheme.displaySmall
                           ?.copyWith(color: Colors.black),
                     ),
@@ -159,7 +162,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         data: qrImagePath!,
                       ).paddingAll(20),
                     Text(
-                      "Thanks for using Flutter Shop",
+                      "Thanks for purchasing from Flutter Shop",
                       style: context.textTheme.displaySmall
                           ?.copyWith(color: Colors.black),
                     ),
@@ -180,10 +183,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           ),
                           child: Column(
                             children: [
-                              SelectedProductList(
-                                isFromTransaction: true,
+                              ProductList(
                                 selectedProductList: widget.selectedProductList,
-                              ),
+                              ).paddingHorizontal(20),
+                              10.height,
                               ListTile(
                                 title: const Text("Transaction Time"),
                                 trailing: Text(
@@ -209,13 +212,19 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   style: context.textTheme.labelLarge,
                                 ),
                               ),
+                              20.height,
+                              Text(
+                                "❤️ Thanks for purchasing from Flutter Shop ❤️",
+                                style: context.textTheme.labelLarge,
+                              ),
+                              20.height,
                             ],
                           ),
                         ),
                         const Positioned(
-                          top: -50,
+                          top: -40,
                           child: CircleAvatar(
-                            radius: 50,
+                            radius: 40,
                             backgroundImage: CachedNetworkImageProvider(
                               "https://w7.pngwing.com/pngs/537/866/png-transparent-flutter-hd-logo.png",
                             ),

@@ -4,6 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:mini_pos/_application/application.dart';
 
+enum ApiStatus {
+  initial,
+  loading,
+  complete,
+  failed,
+}
+
 class ApiService {
   late final Dio _dio;
   late final Logger _logger;
