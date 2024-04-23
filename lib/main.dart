@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_pos/firebase_options.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +10,14 @@ import '_application/main/main.dart';
 import 'bottom_navbar/bottom_navbar.dart';
 import 'ui/ui.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  AppConstants.I.firebaseStorageRef = FirebaseStorage.instance.ref();
   runApp(const MiniPOS());
 }
 

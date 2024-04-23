@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_pos/_application/application.dart';
 import 'package:mini_pos/products/products.dart';
@@ -20,11 +21,11 @@ class SelectedProductList extends StatelessWidget {
       itemBuilder: (context, index) {
         final product = selectedProductList[index];
         return ListTile(
-          leading: Image.network(
-            product.image,
-            errorBuilder: (context, error, stackTrace) {
-              return const SizedBox();
+          leading: CachedNetworkImage(
+            progressIndicatorBuilder: (context, url, progress) {
+              return const CircularProgressIndicator();
             },
+            imageUrl: product.image,
           ),
           title: Text(product.productName + index.toString()),
           subtitle: Column(

@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:media_scanner/media_scanner.dart';
 import 'package:mini_pos/_application/application.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../products/products.dart';
@@ -27,7 +31,8 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   final screenshotController = ScreenshotController();
-  String? captureImagePath;
+  String? qrImagePath;
+  bool onGenrateQr = false;
 
   Future<void> captureScreenShot() async {
     // final fileName =
@@ -76,19 +81,45 @@ class _TransactionScreenState extends State<TransactionScreen> {
         "--------------------- path ${directory.path} ------------------");
     final val = await screenshotController.captureAndSave(directory.path);
 
+    setState(() {
+      onGenrateQr = true;
+    });
+
     if (val != null && val.isNotEmpty) {
       if (Platform.isAndroid) {
         await MediaScanner.loadMedia(
           path: val,
         );
       }
+      debugPrint("--------------------- val $val ------------------");
+      final imageFile = File(val);
+      await storeToFirebase(imageFile);
     }
+  }
 
-    debugPrint("--------------------- val $val ------------------");
+  Future<void> storeToFirebase(File imageFile) async {
+    final path = "qr_images/${imageFile.path.split("/").last}";
+
+    debugPrint("--------------------- path s $path ------------------");
+
+    final ref = FirebaseStorage.instance.ref().child(path);
+
+    final uploadTask = ref.putFile(imageFile);
+
+    final snapshot = await uploadTask.whenComplete(() {});
+
+    debugPrint("--------------------- $snapshot ------------------");
+
+    final downloadUrl = await snapshot.ref.getDownloadURL();
 
     setState(() {
-      captureImagePath = val;
+      qrImagePath = downloadUrl;
+      onGenrateQr = false;
     });
+
+    debugPrint(
+      "--------------------- download $downloadUrl ------------------",
+    );
   }
 
   @override
@@ -97,89 +128,103 @@ class _TransactionScreenState extends State<TransactionScreen> {
       appBar: const CustomAppBar(
         title: "Transaction",
       ),
-      bottomNavigationBar: captureImagePath == null
-          ? ElevatedButton(
+      bottomNavigationBar: onGenrateQr || qrImagePath != null
+          ? null
+          : ElevatedButton(
               onPressed: captureScreenShot,
-              child: const Text("Save"),
+              child: const Text("Save and Print QR"),
+            ),
+      body: onGenrateQr
+          ? Column(
+              children: [
+                LottieBuilder.asset(loading),
+                Text(
+                  "Generating QR",
+                  style: context.textTheme.bodyLarge
+                      ?.copyWith(color: Colors.black),
+                ),
+              ],
             )
-          : null,
-      body: captureImagePath != null
-          ? Center(
-              child: Column(
-                children: [
-                  Text(
-                    "Saved Image Successfully",
-                    style: context.textTheme.displaySmall
-                        ?.copyWith(color: Colors.black),
-                  ),
-                  Expanded(
-                    child: Image.file(
-                      File(captureImagePath!),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : SingleChildScrollView(
-              child: Screenshot(
-                controller: screenshotController,
-                child: Stack(
-                  alignment: Alignment.center,
-                  clipBehavior: Clip.none,
+          : qrImagePath != null
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 30),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: Column(
-                        children: [
-                          SelectedProductList(
-                            isFromTransaction: true,
-                            selectedProductList: widget.selectedProductList,
-                          ),
-                          ListTile(
-                            title: const Text("Transaction Time"),
-                            trailing: Text(
-                              DateTime.now()
-                                  .toUtc()
-                                  .toString()
-                                  .split(".")
-                                  .first,
-                              style: context.textTheme.labelLarge,
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text("Total Quantity"),
-                            trailing: Text(
-                              "${widget.totalQty}",
-                              style: context.textTheme.labelLarge,
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text("Total Price"),
-                            trailing: Text(
-                              "${widget.totalPrice} MMK",
-                              style: context.textTheme.labelLarge,
-                            ),
-                          ),
-                        ],
-                      ),
+                    Text(
+                      "Saved Image Successfully",
+                      style: context.textTheme.displaySmall
+                          ?.copyWith(color: Colors.black),
                     ),
-                    const Positioned(
-                      top: -50,
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(
-                          "https://w7.pngwing.com/pngs/537/866/png-transparent-flutter-hd-logo.png",
-                        ),
-                      ),
+                    if (qrImagePath != null)
+                      QrImageView(
+                        data: qrImagePath!,
+                      ).paddingAll(20),
+                    Text(
+                      "Thanks for using Flutter Shop",
+                      style: context.textTheme.displaySmall
+                          ?.copyWith(color: Colors.black),
                     ),
                   ],
-                ).paddingHorizontal(20).paddingVertical(70),
-              ),
-            ),
+                )
+              : SingleChildScrollView(
+                  child: Screenshot(
+                    controller: screenshotController,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(top: 30),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Column(
+                            children: [
+                              SelectedProductList(
+                                isFromTransaction: true,
+                                selectedProductList: widget.selectedProductList,
+                              ),
+                              ListTile(
+                                title: const Text("Transaction Time"),
+                                trailing: Text(
+                                  DateTime.now()
+                                      .toUtc()
+                                      .toString()
+                                      .split(".")
+                                      .first,
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text("Total Quantity"),
+                                trailing: Text(
+                                  "${widget.totalQty}",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text("Total Price"),
+                                trailing: Text(
+                                  "${widget.totalPrice} MMK",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Positioned(
+                          top: -50,
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage: CachedNetworkImageProvider(
+                              "https://w7.pngwing.com/pngs/537/866/png-transparent-flutter-hd-logo.png",
+                            ),
+                          ),
+                        ),
+                      ],
+                    ).paddingHorizontal(20).paddingVertical(70),
+                  ),
+                ),
     );
   }
 }
