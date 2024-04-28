@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mini_pos/products/products.dart';
-import 'package:mini_pos/ui/ui.dart';
+import 'package:mini_pos/categories/categories.dart';
 import 'package:provider/provider.dart';
 
 import '../../../_application/application.dart';
 
-class ProductScreenWidget extends StatelessWidget {
-  const ProductScreenWidget({super.key});
+class CategoryScreenWidget extends StatelessWidget {
+  const CategoryScreenWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductProvider>(
+    return Consumer<CategoryProvider>(
       builder: (context, value, child) {
-        if (value.getProductListStatus == ApiStatus.loading) {
+        if (value.getCategoryListStatus == ApiStatus.loading) {
           return Center(
             child: LottieBuilder.asset(loading),
           );
@@ -22,16 +21,16 @@ class ProductScreenWidget extends StatelessWidget {
             triggerMode: RefreshIndicatorTriggerMode.anywhere,
             displacement: 100,
             onRefresh: () async {
-              value.getProductList();
+              value.getCategoryList();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              child: value.productList.isEmpty
+              child: value.categoryList.isEmpty
                   ? Column(
                       children: [
                         LottieBuilder.asset(notFound),
                         Text(
-                          "No products",
+                          "No Categories",
                           style: context.textTheme.bodyLarge
                               ?.copyWith(color: Colors.black),
                         ),
@@ -48,11 +47,11 @@ class ProductScreenWidget extends StatelessWidget {
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
                           },
-                          onChanged: value.searchProduct,
+                          onChanged: value.searchCategory,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.search),
-                            labelText: "Search Product",
+                            labelText: "Search Category",
                           ),
                         ),
                         20.height,
@@ -61,28 +60,24 @@ class ProductScreenWidget extends StatelessWidget {
                             children: [
                               LottieBuilder.asset(notFound),
                               Text(
-                                "No searched products are found.",
+                                "No searched categories are found.",
                                 style: context.textTheme.bodyLarge
                                     ?.copyWith(color: Colors.black),
                               ),
                             ],
                           )
                         else
-                          ProductList(
+                          CategoryList(
                             goToEditScreen: (product) =>
                                 value.gotoEditScreen(context, product),
-                            isProductScreen: true,
                             selectFunction: value.selectFunction,
-                            isFileredList: value.searchedProductList.isNotEmpty,
-                            selectedProductsToDelete:
-                                value.selectedProductToDelete,
-                            trailindWidget: const Icon(
-                                Icons.shopping_cart_checkout_outlined),
-                            productList: value.searchedProductList.isEmpty
-                                ? value.productList
-                                : value.searchedProductList,
-                            trailingOnTap: (model) =>
-                                value.addQuantityBottomSheet(model, context),
+                            isFileredList:
+                                value.searchedCategoryList.isNotEmpty,
+                            selectedcategorysToDelete:
+                                value.selectedCategoryToDelete,
+                            categoryList: value.searchedCategoryList.isEmpty
+                                ? value.categoryList
+                                : value.searchedCategoryList,
                           ),
                       ],
                     ).paddingHorizontal(20).paddingVertical(10),
