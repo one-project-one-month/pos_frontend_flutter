@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_pos/_application/application.dart';
-import 'package:mini_pos/ui/ui.dart';
 import 'package:provider/provider.dart';
 
 import '../bottom_navbar.dart';
@@ -13,9 +12,6 @@ class BottomNavbarBootstrap extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomNavbarProvider = Provider.of<BottomNavbarProvider>(context);
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "Mini POS",
-      ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(splashColor: Colors.white),
         child: BottomNavigationBar(

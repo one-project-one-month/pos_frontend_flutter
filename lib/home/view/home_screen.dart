@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
+      appBar: const CustomAppBar(title: "MINI POS"),
       bottomNavigationBar: productProvider.selectedProductList.isNotEmpty
           ? Container(
               decoration: const BoxDecoration(
@@ -106,7 +107,7 @@ class HomeScreen extends StatelessWidget {
             else
               ProductList(
                 trailindWidget: const Icon(Icons.close),
-                selectedProductList: productProvider.selectedProductList,
+                productList: productProvider.selectedProductList,
                 trailingOnTap: (model) => productProvider.showRemoveDialog(
                   context,
                   model,

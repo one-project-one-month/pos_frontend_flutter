@@ -4,13 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mini_pos/products/products.dart';
 import 'package:mini_pos/util/util.dart';
+import 'package:provider/provider.dart';
 
-import '../../_application/application.dart';
+import '../../../_application/application.dart';
 
 class ProductProvider extends ChangeNotifier {
   final productList = <ProductModel>[];
   final selectedProductList = <ProductModel>[];
+  final selectedProductToDelete = <ProductModel>[];
+  final searchedProductList = <ProductModel>[];
+  final searchController = TextEditingController();
+  final searchFocus = FocusNode();
+  bool isFound = true;
+  bool didSelectAll = false;
+
   double totalPrice = 0.0;
+  final _debouncer = Debouncer(milliseconds: 1000);
 
   ApiStatus getProductListStatus = ApiStatus.initial;
 
@@ -19,6 +28,35 @@ class ProductProvider extends ChangeNotifier {
   void updateGetProductListStatus(ApiStatus status) {
     getProductListStatus = status;
     notifyListeners();
+  }
+
+  void searchProduct(String value) {
+    // Early exit if value is empty
+
+    _debouncer.run(() {
+      if (value.isEmpty) {
+        isFound = true;
+        searchedProductList.clear();
+        notifyListeners();
+        return;
+      }
+      debugPrint("--------------------- run ------------------");
+      final lowerCaseValue = value.toLowerCase();
+      final searchList = productList
+          .where((element) =>
+              element.productCode == value ||
+              element.productName.toLowerCase().contains(lowerCaseValue))
+          .toList();
+
+      isFound = searchList.isNotEmpty;
+      searchedProductList
+        ..clear()
+        ..addAll(searchList);
+
+      // Move focus request outside of debouncer
+      searchFocus.requestFocus();
+      notifyListeners();
+    });
   }
 
   void updateProductList({List<ProductModel>? list, ProductModel? product}) {
@@ -173,8 +211,6 @@ class ProductProvider extends ChangeNotifier {
           productName: "Coca Cola",
           price: 700,
           productCategoryCode: "002",
-          image:
-              "https://e7.pngegg.com/pngimages/36/500/png-clipart-coca-cola-car-product-design-coca-cola-car-cola.png",
         ),
         ProductModel(
           productId: "003",
@@ -259,6 +295,48 @@ class ProductProvider extends ChangeNotifier {
     return selectedProductList.fold(
         0, (prev, element) => prev + element.quantity);
   }
+
+  void selectFunction(ProductModel model) {
+    if (!selectedProductToDelete.contains(model)) {
+      selectedProductToDelete.add(model);
+    } else {
+      selectedProductToDelete.remove(model);
+    }
+    notifyListeners();
+  }
+
+  void cancelFunction() {
+    debugPrint("--------------------- call ------------------");
+    didSelectAll = false;
+    selectedProductToDelete.clear();
+    notifyListeners();
+  }
+
+  void selectAllFunction() {
+    debugPrint("--------------------- call ------------------");
+    didSelectAll = true;
+    selectedProductToDelete.addAll(productList);
+    notifyListeners();
+  }
+
+  void deleteFunction() {
+    debugPrint("--------------------- call ------------------");
+
+    for (var element in selectedProductToDelete) {
+      productList.remove(element);
+    }
+    selectedProductToDelete.clear();
+    notifyListeners();
+  }
+
+  void gotoEditScreen(BuildContext context, ProductModel product) {
+    context.read<EditProductProvider>()
+      ..pCategoryCodeController.text = product.productCategoryCode
+      ..pCodeController.text = product.productCode
+      ..pNameController.text = product.productName
+      ..pPriceController.text = product.productName;
+    context.toNamed(fullPath: editProductScreen);
+  }
 }
 
 extension IterableExtensions<T> on Iterable<T> {
@@ -267,5 +345,17 @@ extension IterableExtensions<T> on Iterable<T> {
       if (test(element)) return element;
     }
     return null;
+  }
+}
+
+class Debouncer {
+  final int milliseconds;
+  Timer? _timer;
+  Debouncer({required this.milliseconds});
+  void run(VoidCallback action) {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }

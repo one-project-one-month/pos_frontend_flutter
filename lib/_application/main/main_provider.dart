@@ -10,4 +10,8 @@ List<SingleChildWidget> mainProviders = [
   ChangeNotifierProvider(
     create: (context) => ProductProvider(),
   ),
+  ChangeNotifierProvider(
+    create: (context) => EditProductProvider(),
+    lazy: true,
+  ),
 ];

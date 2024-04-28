@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_pos/products/products.dart';
 
 import '../../transaction/transaction.dart';
 import '../application.dart';
@@ -13,6 +14,15 @@ Route<dynamic>? appRoutes(RouteSettings settings) {
           totalQty: arguments["totalQty"],
           selectedProductList: arguments["selectedProductList"],
         );
+      });
+
+    case addProductScreen:
+      return MaterialPageRoute(builder: (context) {
+        return const AddProductScreen();
+      });
+    case editProductScreen:
+      return MaterialPageRoute(builder: (context) {
+        return const EditProductScreen();
       });
   }
   return null;

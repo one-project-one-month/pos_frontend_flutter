@@ -98,8 +98,9 @@ final ThemeData myTheme = ThemeData(
   // button theme
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      maximumSize: const Size.fromHeight(50),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: BorderRadius.circular(5),
       ),
       foregroundColor: Colors.white,
       backgroundColor: const Color(0xFF9055FD),

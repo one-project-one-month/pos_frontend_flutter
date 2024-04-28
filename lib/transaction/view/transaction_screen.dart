@@ -184,7 +184,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           child: Column(
                             children: [
                               ProductList(
-                                selectedProductList: widget.selectedProductList,
+                                productList: widget.selectedProductList,
                               ).paddingHorizontal(20),
                               10.height,
                               ListTile(
