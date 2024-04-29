@@ -302,6 +302,12 @@ class ProductProvider extends ChangeNotifier {
     } else {
       selectedProductToDelete.remove(model);
     }
+
+    if (selectedProductToDelete.length == productList.length) {
+      didSelectAll = true;
+    } else {
+      didSelectAll = false;
+    }
     notifyListeners();
   }
 

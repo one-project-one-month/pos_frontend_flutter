@@ -4,6 +4,8 @@ import 'package:mini_pos/products/products.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../../customers/customers.dart';
+
 List<SingleChildWidget> mainProviders = [
   ChangeNotifierProvider(
     create: (context) => BottomNavbarProvider(),
@@ -22,6 +24,14 @@ List<SingleChildWidget> mainProviders = [
   ),
   ChangeNotifierProvider(
     create: (context) => EditCategoryProvider(),
+    lazy: true,
+  ),
+  ChangeNotifierProvider(
+    create: (context) => CustomerProvider(),
+    lazy: true,
+  ),
+  ChangeNotifierProvider(
+    create: (context) => EditCustomerProvider(),
     lazy: true,
   ),
 ];

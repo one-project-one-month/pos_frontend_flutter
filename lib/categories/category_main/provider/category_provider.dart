@@ -119,6 +119,12 @@ class CategoryProvider extends ChangeNotifier {
     } else {
       selectedCategoryToDelete.remove(model);
     }
+
+    if (selectedCategoryToDelete.length == categoryList.length) {
+      didSelectAll = true;
+    } else {
+      didSelectAll = false;
+    }
     notifyListeners();
   }
 

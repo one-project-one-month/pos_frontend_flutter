@@ -1,1 +1,1 @@
-export 'edit_product_screen.dart';
+export 'edit_category_screen.dart';

@@ -126,7 +126,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: "Transaction",
+        title: "Invoice",
       ),
       bottomNavigationBar: onGenrateQr || qrImagePath != null
           ? null
@@ -153,7 +153,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Saved Transaction Successfully",
+                      "Saved Invoice Successfully",
                       style: context.textTheme.displaySmall
                           ?.copyWith(color: Colors.black),
                     ),
@@ -188,7 +188,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                               ).paddingHorizontal(20),
                               10.height,
                               ListTile(
-                                title: const Text("Transaction Time"),
+                                title: const Text("Purchased Time"),
                                 trailing: Text(
                                   DateTime.now()
                                       .toUtc()

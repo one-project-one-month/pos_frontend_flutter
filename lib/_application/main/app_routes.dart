@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_pos/categories/categories.dart';
+import 'package:mini_pos/customers/customers.dart';
 import 'package:mini_pos/products/products.dart';
 
 import '../../transaction/transaction.dart';
@@ -32,6 +33,14 @@ Route<dynamic>? appRoutes(RouteSettings settings) {
     case editCategoryScreen:
       return MaterialPageRoute(builder: (context) {
         return const EditCategoryScreen();
+      });
+    case addCustomerScreen:
+      return MaterialPageRoute(builder: (context) {
+        return const AddCustomerScreen();
+      });
+    case editCustomerScreen:
+      return MaterialPageRoute(builder: (context) {
+        return const EditCustomerScreen();
       });
   }
   return null;
