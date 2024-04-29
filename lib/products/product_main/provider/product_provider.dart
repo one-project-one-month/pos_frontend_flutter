@@ -30,6 +30,11 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearSelectedProductList() {
+    selectedProductList.clear();
+    notifyListeners();
+  }
+
   void searchProduct(String value) {
     // Early exit if value is empty
 

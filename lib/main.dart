@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '_application/application.dart';
 import '_application/main/main.dart';
-import 'bottom_navbar/bottom_navbar.dart';
 import 'ui/ui.dart';
 
 Future<void> main() async {
@@ -37,7 +36,7 @@ class MiniPOS extends StatelessWidget {
         scaffoldMessengerKey: AppConstants.I.rootNavigatorKey,
         theme: myTheme,
         onGenerateRoute: appRoutes,
-        home: const BottomNavbarBootstrap(),
+        home: const MainScreen(),
       ),
     );
   }

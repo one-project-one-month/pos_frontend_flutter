@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mini_pos/auth/auth.dart';
+import 'package:mini_pos/bottom_navbar/bottom_navbar.dart';
 import 'package:mini_pos/categories/categories.dart';
 import 'package:mini_pos/customers/customers.dart';
 import 'package:mini_pos/products/products.dart';
@@ -41,6 +43,18 @@ Route<dynamic>? appRoutes(RouteSettings settings) {
     case editCustomerScreen:
       return MaterialPageRoute(builder: (context) {
         return const EditCustomerScreen();
+      });
+    case loginScreen:
+      return MaterialPageRoute(builder: (context) {
+        return const LoginScreen();
+      });
+    case signUpScreen:
+      return MaterialPageRoute(builder: (context) {
+        return const SignUpScreen();
+      });
+    case home:
+      return MaterialPageRoute(builder: (context) {
+        return const BottomNavbarBootstrap();
       });
   }
   return null;

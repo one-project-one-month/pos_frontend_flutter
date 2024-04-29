@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:mini_pos/_application/application.dart';
 import 'package:mini_pos/staff/staff.dart';
 
-import '../../_application/application.dart';
-
 class StaffProvider extends ChangeNotifier {
-  final staffs = <StaffModel>[];
+  StaffModel? currentStaff;
 
-  Future<void> getStaffs() async {
-    final res = await ApiService.I.callApi(
-      isAlreadyHaveToken: false,
-    );
-
-    final dummyStaffs = List.generate(
-      5,
-      (index) => StaffModel(
-          stuffId: index.toString(),
-          stuffCode: index.toString(),
-          staffName: "Dummy Staff",
-          dOB: "2003-10-03",
-          mobileNumber: "09999999999",
-          address: "Yangon",
-          gender: "MALE",
-          position: "STAFF"),
-    );
-
-    staffs.addAll(dummyStaffs);
+  void setStaff(StaffModel staff) {
+    currentStaff = staff;
     notifyListeners();
+  }
+
+  Future<void> checkStaffInfo(String staffToken) async {
+    const checkedStaff = StaffModel(
+      stuffId: "01",
+      stuffCode: "01",
+      staffName: "staffName",
+      dOB: "2003-10-03",
+      mobileNumber: "0999999999",
+      address: "Yangon",
+      gender: "MALE",
+      position: "Staff",
+    );
+    currentStaff = checkedStaff;
+    notifyListeners();
+
+    await AppConstants.I.rootNavigatorKey.currentContext!.toNamed(
+      fullPath: home,
+      redirect: false,
+    );
   }
 }

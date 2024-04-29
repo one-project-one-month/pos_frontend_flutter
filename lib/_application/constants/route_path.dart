@@ -5,3 +5,6 @@ const addCategoryScreen = "/addCategoryScreen";
 const editCategoryScreen = "/editCategoryScreen";
 const addCustomerScreen = "/addCustomerScreen";
 const editCustomerScreen = "/editCustomerScreen";
+const loginScreen = "/loginScreen";
+const signUpScreen = "/signUpScreen";
+const home = "/home";

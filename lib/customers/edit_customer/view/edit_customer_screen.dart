@@ -81,10 +81,12 @@ class EditCustomerScreen extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return CupertinoDatePicker(
-                          initialDateTime: DateTime.now(),
-                          minimumDate: DateTime.now().subtract(
-                            const Duration(days: 365 * 18),
+                          initialDateTime: DateTime.now().subtract(
+                            const Duration(
+                              days: 365 * 20,
+                            ),
                           ),
+                          maximumYear: DateTime.now().year - 18,
                           mode: CupertinoDatePickerMode.date,
                           use24hFormat: true,
                           onDateTimeChanged: value.setDOB,

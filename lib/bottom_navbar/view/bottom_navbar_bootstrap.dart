@@ -39,7 +39,7 @@ class BottomNavbarBootstrap extends StatelessWidget {
                   foregroundColor: Colors.white,
                   shape: const CircleBorder(),
                   onPressed: () {},
-                  child: const Icon(Icons.add),
+                  child: const Icon(Icons.person),
                 ),
               ),
               const BottomNavigationBarItem(
@@ -48,7 +48,7 @@ class BottomNavbarBootstrap extends StatelessWidget {
               ),
               const BottomNavigationBarItem(
                 label: "Customers",
-                icon: Icon(Icons.person_3),
+                icon: Icon(CupertinoIcons.person_3),
               ),
             ]),
       ),

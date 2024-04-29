@@ -41,6 +41,7 @@ class CustomerList extends StatelessWidget {
             ],
           ).paddingVertical(10),
         ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: customerList.length,
           separatorBuilder: (context, index) {

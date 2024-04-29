@@ -12,6 +12,7 @@ class CustomerProvider extends ChangeNotifier {
   final searchedCustomerList = <CustomerModel>[];
   final searchController = TextEditingController();
   final searchFocus = FocusNode();
+  CustomerModel? selectedCustomer;
   bool isFound = true;
   bool didSelectAll = false;
 
@@ -23,6 +24,18 @@ class CustomerProvider extends ChangeNotifier {
 
   void updateGetProductListStatus(ApiStatus status) {
     getProductListStatus = status;
+    notifyListeners();
+  }
+
+  void setSelectedCustomer(CustomerModel customer) {
+    debugPrint(
+        "--------------------- ${selectedCustomer == customer} ------------------");
+    if (selectedCustomer == customer) {
+      selectedCustomer = null;
+    } else {
+      selectedCustomer = customer;
+    }
+    debugPrint("--------------------- $selectedCustomer ------------------");
     notifyListeners();
   }
 
