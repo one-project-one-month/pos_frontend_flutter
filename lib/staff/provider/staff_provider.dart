@@ -10,7 +10,7 @@ class StaffProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> checkStaffInfo(String staffToken) async {
+  Future<void> checkStaffInfo(String staffToken, BuildContext context) async {
     const checkedStaff = StaffModel(
       stuffId: "01",
       stuffCode: "01",
@@ -24,7 +24,7 @@ class StaffProvider extends ChangeNotifier {
     currentStaff = checkedStaff;
     notifyListeners();
 
-    await AppConstants.I.rootNavigatorKey.currentContext!.toNamed(
+    await context.toNamed(
       fullPath: home,
       redirect: false,
     );

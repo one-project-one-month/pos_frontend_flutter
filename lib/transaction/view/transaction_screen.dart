@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -204,154 +203,145 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 )
               : SingleChildScrollView(
                   child: Screenshot(
-                      controller: screenshotController,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(top: 30),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const ListTile(
-                                  trailing: Text("Voucher No. (24230)"),
+                    controller: screenshotController,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const ListTile(
+                                trailing: Text("Voucher No. #24230"),
+                              ),
+                              10.height,
+                              ProductList(
+                                productList: widget.selectedProductList,
+                              ),
+                              10.height,
+                              CusRow(
+                                title: Text(
+                                  "Purchased Time",
+                                  style: context.textTheme.labelMedium,
                                 ),
-                                10.height,
-                                ProductList(
-                                  productList: widget.selectedProductList,
-                                ).paddingHorizontal(20),
-                                10.height,
-                                CusRow(
-                                  title: Text(
-                                    "Purchased Time",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    DateTime.now()
-                                        .toUtc()
-                                        .toString()
-                                        .split(".")
-                                        .first,
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Payment Type",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    paymentType.toString(),
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Staff Code",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    staffCode,
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                if (selectedCustomer != null)
-                                  CusRow(
-                                    title: Text(
-                                      "Customer Code",
-                                      style: context.textTheme.labelMedium,
-                                    ),
-                                    trailing: Text(
-                                      selectedCustomer.customerCode,
-                                      style: context.textTheme.labelLarge,
-                                    ),
-                                  ),
-                                const Divider(),
-                                CusRow(
-                                  title: Text(
-                                    "Total Quantity",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    "${widget.totalQty}",
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Total Price",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    "${widget.totalPrice.toStringAsFixed(2)} MMK",
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Tax",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    "${taxAmount.toStringAsFixed(2)} MMK ($tax %) ",
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Discount",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    "${discountAmount.toStringAsFixed(2)} MMK ($discount %)",
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Sub Total",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    "${finalPrice.toStringAsFixed(2)} MMK",
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                CusRow(
-                                  title: Text(
-                                    "Change",
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                  trailing: Text(
-                                    "${change.toStringAsFixed(2)} MMK",
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                ),
-                                20.height,
-                                Text(
-                                  "❤️ Thanks for purchasing from Flutter Shop ❤️",
+                                trailing: Text(
+                                  DateTime.now()
+                                      .toUtc()
+                                      .toString()
+                                      .split(".")
+                                      .first,
                                   style: context.textTheme.labelLarge,
                                 ),
-                                20.height,
-                              ],
-                            ),
-                          ),
-                          const Positioned(
-                            top: -40,
-                            child: CircleAvatar(
-                              radius: 40,
-                              backgroundImage: CachedNetworkImageProvider(
-                                "https://w7.pngwing.com/pngs/537/866/png-transparent-flutter-hd-logo.png",
                               ),
-                            ),
+                              CusRow(
+                                title: Text(
+                                  "Payment Type",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  paymentType.toString(),
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              CusRow(
+                                title: Text(
+                                  "Staff Code",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  staffCode,
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              if (selectedCustomer != null)
+                                CusRow(
+                                  title: Text(
+                                    "Customer Code",
+                                    style: context.textTheme.labelMedium,
+                                  ),
+                                  trailing: Text(
+                                    selectedCustomer.customerCode,
+                                    style: context.textTheme.labelLarge,
+                                  ),
+                                ),
+                              const Divider(),
+                              CusRow(
+                                title: Text(
+                                  "Total Quantity",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  "${widget.totalQty}",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              CusRow(
+                                title: Text(
+                                  "Total Price",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  "${widget.totalPrice.toStringAsFixed(2)} MMK",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              CusRow(
+                                title: Text(
+                                  "Tax",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  "${taxAmount.toStringAsFixed(2)} MMK ($tax %) ",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              CusRow(
+                                title: Text(
+                                  "Discount",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  "${discountAmount.toStringAsFixed(2)} MMK ($discount %)",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              CusRow(
+                                title: Text(
+                                  "Sub Total",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  "${finalPrice.toStringAsFixed(2)} MMK",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              CusRow(
+                                title: Text(
+                                  "Change",
+                                  style: context.textTheme.labelMedium,
+                                ),
+                                trailing: Text(
+                                  "${change.toStringAsFixed(2)} MMK",
+                                  style: context.textTheme.labelLarge,
+                                ),
+                              ),
+                              20.height,
+                              Text(
+                                "❤️ Thanks for purchasing from Flutter Shop ❤️",
+                                style: context.textTheme.labelLarge,
+                              ),
+                              20.height,
+                            ],
                           ),
-                        ],
-                      ).paddingHorizontal(20).paddingVertical(70)),
+                        ),
+                      ],
+                    ).paddingAll(20),
+                  ),
                 ),
     );
   }
@@ -367,6 +357,6 @@ class CusRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [title, trailing],
-    ).paddingHorizontal(20).paddingVertical(5);
+    ).paddingHorizontal(30).paddingVertical(10);
   }
 }

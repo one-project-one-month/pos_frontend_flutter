@@ -87,15 +87,17 @@ class HomeScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    final provider = context.read<CustomerProvider>();
+                    if (provider.customerList.isEmpty) {
+                      provider.getCustomerList();
+                    }
                     await showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
                         final customerProvider =
                             context.watch<CustomerProvider>();
-                        if (customerProvider.customerList.isEmpty) {
-                          context.read<CustomerProvider>().getCustomerList();
-                        }
+
                         return SizedBox(
                           height: context.dh * 0.6,
                           child: ListView(
@@ -155,7 +157,8 @@ class HomeScreen extends StatelessWidget {
               ProductList(
                 trailindWidget: const Icon(Icons.close),
                 productList: productProvider.selectedProductList,
-                trailingOnTap: (model) => productProvider.showRemoveDialog(
+                trailingOnTap: (model) async =>
+                    await productProvider.showRemoveDialog(
                   context,
                   model,
                 ),

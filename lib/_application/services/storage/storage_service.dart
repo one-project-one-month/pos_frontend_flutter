@@ -22,7 +22,7 @@ class StorageService {
 
   Future<void> storeData({
     required String key,
-    required Map<String, dynamic> data,
+    required data,
   }) async {
     await _storage.write(key: key, value: jsonEncode(data));
   }

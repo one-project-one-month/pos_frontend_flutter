@@ -14,6 +14,6 @@ class MainController {
       await context.toNamed(fullPath: loginScreen);
       return;
     }
-    context.read<StaffProvider>().checkStaffInfo(token);
+    context.read<StaffProvider>().checkStaffInfo(token, context);
   }
 }

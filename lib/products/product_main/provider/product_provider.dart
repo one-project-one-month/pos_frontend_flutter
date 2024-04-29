@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mini_pos/products/products.dart';
-import 'package:mini_pos/util/util.dart';
 import 'package:provider/provider.dart';
 
 import '../../../_application/application.dart';
@@ -32,6 +32,9 @@ class ProductProvider extends ChangeNotifier {
 
   void clearSelectedProductList() {
     selectedProductList.clear();
+    for (var element in productList) {
+      element.quantity = 0;
+    }
     notifyListeners();
   }
 
@@ -259,28 +262,67 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void showRemoveDialog(BuildContext context, ProductModel model) {
-    showAlertBox(context,
-        child: Column(
+  Future<void> showRemoveDialog(
+    BuildContext context,
+    ProductModel model,
+  ) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Are you sure to remove this product"),
-            Row(
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    child: const Text("NO")),
-                ElevatedButton(
-                    onPressed: () {
-                      removeProduct(model);
-                      context.pop();
-                    },
-                    child: const Text("YES"))
-              ],
-            )
+            Container(
+              color: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LottieBuilder.asset(
+                    question,
+                    width: 100,
+                    height: 100,
+                  ),
+                  Text(
+                    "Are you sure to remove this product",
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: Colors.black,
+                    ),
+                  ),
+                  20.height,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          width: context.dw,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              child: const Text("NO")),
+                        ),
+                      ),
+                      20.width,
+                      Expanded(
+                        child: SizedBox(
+                          width: context.dw,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                removeProduct(model);
+                                context.pop();
+                              },
+                              child: const Text("YES")),
+                        ),
+                      )
+                    ],
+                  ).paddingHorizontal(30).paddingVertical(20)
+                ],
+              ),
+            ),
           ],
-        ));
+        ).paddingHorizontal(10);
+      },
+    );
   }
 
   void removeProduct(ProductModel model) {

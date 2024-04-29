@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_pos/_application/application.dart';
+import 'package:mini_pos/_application/services/storage/storage_service.dart';
 import 'package:provider/provider.dart';
 
 import '../bottom_navbar.dart';
@@ -38,7 +39,11 @@ class BottomNavbarBootstrap extends StatelessWidget {
                   backgroundColor: context.primaryColor,
                   foregroundColor: Colors.white,
                   shape: const CircleBorder(),
-                  onPressed: () {},
+                  onPressed: () async {
+                    StorageService.I.deleteData(key: "authToken");
+                    await context.toNamed(
+                        fullPath: loginScreen, redirect: false);
+                  },
                   child: const Icon(Icons.person),
                 ),
               ),

@@ -9,9 +9,7 @@ extension RouteExtension on BuildContext {
     if (!redirect) {
       Navigator.of(this).pushNamedAndRemoveUntil(
         fullPath,
-        (route) {
-          return true;
-        },
+        (route) => false,
         arguments: arguments,
       );
     } else {

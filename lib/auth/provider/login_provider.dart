@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_pos/_application/application.dart';
+import 'package:mini_pos/_application/services/storage/storage_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../staff/staff.dart';
@@ -34,6 +35,7 @@ class LoginProvider extends ChangeNotifier {
     );
 
     context.read<StaffProvider>().setStaff(dummyStuff);
+    StorageService.I.storeData(key: "authToken", data: "test");
     context.toNamed(fullPath: home, redirect: false);
   }
 }
